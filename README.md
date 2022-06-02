@@ -4,6 +4,6 @@ Those scripts extract and analyze the auditory measurement data (ABR amplitude a
 
 If your ASCII file is exported from Duet, you can use FindPeaks_Duet.R
 
-ASCII file should be exported for a whole page, but not a single trace.
+ASCII file should be exported from a whole page, but not a single trace.
 
 Daxiang Na
