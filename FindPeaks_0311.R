@@ -14,7 +14,6 @@
 #'[other mislabeled peaks in the first five ones recognized.]
 #
 # source("FindPeaks.R")
-#
 # Example usage 1:
 # FindPeaks_group("folder_name") # find peaks for a group of animals
 # 
@@ -27,13 +26,10 @@
 # Example usage 4:
 # Compile("folder_name") # put all (revised) csv outcomes together, requires "Info.csv"
 #
-# Example usage 5:
-# Average_Waveform("folder_name", aes(x = Data_Pnt_ms, y = `75`)) # show average waveforms in different groups, replace "75" with sound level of interest.
-#
 # algorithm is adapted from William A. Huber (http://stats.stackexchange.com/questions/36309/how-do-i-find-peaks-in-a-dataset).
 # author: Daxiang Na (daxiang_na@urmc.rochester.edu)
 #
-# ver 2022.08.17
+# ver 2022.03.11
 ########
 
 library(tidyverse)
@@ -137,32 +133,6 @@ See_trace <- function(file) {
         }
         fig <- subplot(ls, nrows = length(ls))
         htmlwidgets::saveWidget(as_widget(fig), paste(animalID, ".html", sep = ""))
-}
-
-Average_Waveform <- function(directory, mapping = aes(x = Data_Pnt_ms, y = `75`)) {
-        file_list <- list.files(directory, full.names = TRUE)
-        info <- read.csv("Info.csv")
-        df <- data.frame()
-        for (i in 1:length(file_list)) {
-                animalID <- tools::file_path_sans_ext(basename(file_list[i]))
-                Waveform <- ASCII_extract(file_list[i])
-                # if (17-ncol(Waveform) != 0) {
-                #         complete <- data.frame(matrix(NA, nrow = 1, ncol = 17-ncol(Waveform)))
-                #         colnames(complete) <- seq(from = 5, to = 5*(17-ncol(Waveform)), by = 5)
-                #         Waveform <- cbind(Waveform, complete)
-                # }
-                animalInfo <- info[info[,1]==animalID,]
-                Waveform <- cbind(Waveform, animalInfo)
-                df <- rbind(df, Waveform)
-        }
-        p <- ggplot(data = df, mapping) + 
-                stat_summary(aes(group = Genotype, color = Genotype),fun.data = mean_se, geom = "line", size = 1.5) +
-                theme_classic(base_size = 20) + 
-                theme(axis.text.x = element_text(face="bold", color="black", size = 20),
-                      axis.text.y = element_text(face="bold", color="black", size = 20), 
-                      aspect.ratio = 1/2) +
-                labs(x="Latency (ms)",y="Amplitude (μV)")
-        return(p)
 }
 
 # Function to find waves for individual animal
