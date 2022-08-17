@@ -18,7 +18,7 @@ write.csv(df, "5xFAD_Chort 9_pre Donepezil_Waveform.csv", row.names = F)
 df <- read.csv("5xFAD_Chort 9_pre Donepezil_Waveform.csv")
 # Average Waveform
 df <- df %>% filter(Treatment == "Donepezil")
-p <- ggplot(data = df, aes(x = Data_Pnt_ms, y = `X75`))
+p <- ggplot(data = df, aes(x = Data_Pnt_ms, y = `75`))
 p + stat_summary(aes(group = Genotype, color = Genotype), fun.data = mean_se, geom = "line", size = 1.5) +
         scale_color_manual(values=c("red","black")) +
         theme_classic(base_size = 20) + 
