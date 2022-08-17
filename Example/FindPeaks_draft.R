@@ -29,7 +29,7 @@
 # algorithm is adapted from William A. Huber (http://stats.stackexchange.com/questions/36309/how-do-i-find-peaks-in-a-dataset).
 # author: Daxiang Na (daxiang_na@urmc.rochester.edu)
 #
-# ver 2022.03.11
+# ver 2022.08.17
 ########
 
 library(tidyverse)
@@ -133,6 +133,10 @@ See_trace <- function(file) {
         }
         fig <- subplot(ls, nrows = length(ls))
         htmlwidgets::saveWidget(as_widget(fig), paste(animalID, ".html", sep = ""))
+}
+
+Average_Waveform <- function(directory) {
+        
 }
 
 # Function to find waves for individual animal
