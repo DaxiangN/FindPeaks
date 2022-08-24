@@ -28,7 +28,7 @@
 # Compile("folder_name") # put all (revised) csv outcomes together, requires "Info.csv"
 #
 # Example usage 5:
-# Average_Waveform("folder_name", aes(x = Data_Pnt_ms, y = `75`)) # show average waveforms in different groups, replace "75" with sound level of interest.
+# Average_Waveform("folder_name", aes(x = Data_Pnt_ms, y = `75`, group = Genotype, color = Genotype)) # show average waveforms in different groups, replace "75" with sound level of interest.
 #
 # algorithm is adapted from William A. Huber (http://stats.stackexchange.com/questions/36309/how-do-i-find-peaks-in-a-dataset).
 # author: Daxiang Na (daxiang_na@urmc.rochester.edu)
