@@ -9,7 +9,8 @@ library(plotly)
 ui <- fluidPage(
         numericInput("Sound","Sound Level", 75, min = 0, max = 110, step = 5),
         plotlyOutput("plot"),
-        verbatimTextOutput("click")
+        verbatimTextOutput("click"),
+        tableOutput("dataTable")
 )
 
 server <- function(input, output, session) {
@@ -20,7 +21,10 @@ server <- function(input, output, session) {
                                 add_trace()%>%
                                 layout(showlegend = F,
                                        annotations = list(text = paste("Sound Level = ", as.character(j)," dB", sep = ""), 
-                                                          showarrow = F))%>%
+                                                          showarrow = F),
+                                       xaxis = list(title = list(text ='Latency')),
+                                       yaxis = list(title = list(text = 'Amplitude'))
+                                       )%>%
                                 layout(dragmode = "select") %>%
                                 event_register("plotly_selecting")
                 } else {plot_ly(x = 0, y = 0, type = 'scatter', mode = 'lines')
@@ -28,10 +32,21 @@ server <- function(input, output, session) {
 
         })
         
-        output$click <- renderPrint({
-                d <- event_data("plotly_click")
-                if (is.null(d)) "Click to show x and y (double-click to clear)" else d
+        output$dataTable <- renderTable({
+                c <- event_data("plotly_click")
+                if (is.null(c)) 
+                        "Click to show x and y (double-click to clear)" 
+                else 
+                        colnames(c) <- c("curveNumber", "pointNumber", "latency (ms)", "amplitude (μV)")
+                c
         })
+
+        # output$click <- renderPrint({
+        #         b <- data.frame()
+        #         c <- event_data("plotly_click")
+        #         d <- rbind(b,c)
+        #         if (is.null(d)) "Click to show x and y (double-click to clear)" else d
+        # })
 }
 
 shinyApp(ui, server)

@@ -139,7 +139,7 @@ See_trace <- function(file) {
         htmlwidgets::saveWidget(as_widget(fig), paste(animalID, ".html", sep = ""))
 }
 
-Average_Waveform <- function(directory, mapping = aes(x = Data_Pnt_ms, y = `75`)) {
+Average_Waveform <- function(directory, mapping = aes(x = Data_Pnt_ms, y = `75`, group = Genotype, color = Genotype)) {
         file_list <- list.files(directory, full.names = TRUE)
         info <- read.csv("Info.csv")
         df <- data.frame()
@@ -156,7 +156,7 @@ Average_Waveform <- function(directory, mapping = aes(x = Data_Pnt_ms, y = `75`)
                 df <- rbind(df, Waveform)
         }
         p <- ggplot(data = df, mapping) + 
-                stat_summary(aes(group = Genotype, color = Genotype),fun.data = mean_se, geom = "line", size = 1.5) +
+                stat_summary(fun.data = mean_se, geom = "line", size = 1.5) +
                 theme_classic(base_size = 20) + 
                 theme(axis.text.x = element_text(face="bold", color="black", size = 20),
                       axis.text.y = element_text(face="bold", color="black", size = 20), 
